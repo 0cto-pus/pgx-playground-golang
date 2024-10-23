@@ -9,18 +9,18 @@ import (
 )
 
 func main() {
-    // Migration dosyalarının yolunu ve PostgreSQL bağlantı bilgisini veriyoruz.
+    // We provide the path to the migration files and the PostgreSQL connection information.
     m, err := migrate.New(
-        "file://./", // Migrations klasörünün yolu
-        "postgres://postgres:postgres@localhost:6432/productapp?sslmode=disable") // Veritabanı bağlantısı
+        "file://./", 
+        "postgres://postgres:postgres@localhost:6432/productapp?sslmode=disable") 
     if err != nil {
-        log.Fatalf("Migration başlatılamadı: %v", err)
+        log.Fatalf("Migration start error: %v", err)
     }
 
-    // Migration'ları çalıştırmak için `Up` metodu kullanılıyor. Bu tüm migration dosyalarını çalıştırır.
+    // The `Up` method is used to run migrations. This runs all migration files.
     if err := m.Up(); err != nil && err != migrate.ErrNoChange {
-        log.Fatalf("Migration hatası: %v", err)
+        log.Fatalf("Migration error: %v", err)
     }
 
-    log.Println("Migration işlemi başarıyla tamamlandı!")
+    log.Println("Migration completed succesfully!")
 }
