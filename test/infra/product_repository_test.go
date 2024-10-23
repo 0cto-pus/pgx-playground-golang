@@ -59,14 +59,14 @@ func TestGetAllProducts(t *testing.T) {
 		},
 		{
 			Id:       2,
-			Name:     "Ütü",
+			Name:     "Computer",
 			Price:    1500.0,
 			Discount: 10.0,
 			Store:    "ABC TECH",
 		},
 		{
 			Id:       3,
-			Name:     "Çamaşır Makinesi",
+			Name:     "Dishwasher",
 			Price:    10000.0,
 			Discount: 15.0,
 			Store:    "ABC TECH",
@@ -76,7 +76,7 @@ func TestGetAllProducts(t *testing.T) {
 			Name:     "Lambader",
 			Price:    2000.0,
 			Discount: 0.0,
-			Store:    "Dekorasyon Sarayı",
+			Store:    "Decoration Store",
 		},
 	}
 	t.Run("GetAllProducts", func(t *testing.T) {
@@ -100,14 +100,14 @@ func TestGetAllProductsByStore(t *testing.T) {
 		},
 		{
 			Id:       2,
-			Name:     "Ütü",
+			Name:     "Computer",
 			Price:    1500.0,
 			Discount: 10.0,
 			Store:    "ABC TECH",
 		},
 		{
 			Id:       3,
-			Name:     "Çamaşır Makinesi",
+			Name:     "Dishwasher",
 			Price:    10000.0,
 			Discount: 15.0,
 			Store:    "ABC TECH",
@@ -117,6 +117,33 @@ func TestGetAllProductsByStore(t *testing.T) {
 		actualProducts := productRepository.GetAllProductsByStore("ABC TECH")
 		assert.Equal(t, 3, len(actualProducts))
 		assert.Equal(t, expectedProducts, actualProducts)
+	})
+
+	clear(ctx, dbPool)
+}
+
+
+func TestAddProduct(t *testing.T) {
+	expectedProducts := []domain.Product{
+		{
+			Id:       1,
+			Name:     "Monitor",
+			Price:    1000.0,
+			Discount:0.0,
+			Store:    "ABC TECH",
+		},
+	}
+	newProduct := domain.Product{
+		Name: "Monitor",
+		Price: 1000.0,
+		Discount: 0.0,
+		Store: "ABC TECH",
+	}
+	t.Run("AddProduct", func(t *testing.T) {
+		productRepository.AddProduct(newProduct)
+		addedProducts := productRepository.GetAllProducts()
+		assert.Equal(t, 1, len(addedProducts))
+		assert.Equal(t, expectedProducts, addedProducts)
 	})
 
 	clear(ctx, dbPool)
